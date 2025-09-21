@@ -35,7 +35,7 @@ The general communication flow is:
 
 ---
 
-## 🔄 Communication Sequence (Hold Master)
+## Communication Sequence (Hold Master)
 
 According to the datasheet, the **Hold Master** measurement sequence is:
 
@@ -46,7 +46,7 @@ According to the datasheet, the **Hold Master** measurement sequence is:
 
 ![Hold master communication sequence](https://github.com/Negar-Mahmoudy/stm32-sht2x-i2c/blob/main/images/2.png?raw=true)
 
-![Temperature Formula](images/formula.png)
+![Temperature Formula](https://github.com/Negar-Mahmoudy/stm32-sht2x-i2c/blob/main/images/3.png?raw=true)
 
 ---
 
