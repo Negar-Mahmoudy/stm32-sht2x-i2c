@@ -44,7 +44,7 @@ According to the datasheet, the **Hold Master** measurement sequence is:
 3. Send sensor address + read bit.  
 4. Receive 3 bytes: MSB, LSB, and CRC.  
 
-![Hold master communication sequence](images/formula.png)
+![Hold master communication sequence](https://github.com/Negar-Mahmoudy/stm32-sht2x-i2c/blob/main/images/2.png?raw=true)
 
 ![Temperature Formula](images/formula.png)
 
