@@ -1,14 +1,10 @@
 # stm32-SHT20-I2C-temperature measurement
 
-This project demonstrates how to interface an **STM32 microcontroller** with the **SHT2x temperature & humidity sensor** using the **I²C protocol**.  
-In this example, the temperature is read from the sensor and printed via **UART** to a serial terminal.
-
+The purpose of this project is to show how to connect an STM32 microcontroller to the SHT2x temperature & humidity sensor over I²C.
+In this example the temperature is read from the sensor and printed over UART to a serial terminale.
 ---
 
 ## Overview
-
-The SHT2x sensor provides temperature and humidity data through I²C commands.  
-The general communication flow is:
 
 1. Send the measurement command (e.g., `Trigger T measurement`).  
 2. Receive 3 bytes from the sensor:  
@@ -16,6 +12,21 @@ The general communication flow is:
    - **LSB** (least significant byte of data)  
    - **Checksum (CRC)**  
 3. Convert the raw data into real temperature values using the datasheet formula.
+
+---
+
+## Configuration
+
+* **I²C1**
+
+  * Speed: `100 kHz`
+  * Mode: `7-bit addressing`
+  * Sensor address: `0x40`
+
+* **UART2**
+
+  * Baudrate: `115200`
+  * Mode: `TX/RX`
 
 ---
 
@@ -31,7 +42,7 @@ The general communication flow is:
 | Read user register        | —             | `1110 0111` | `0xE7`     |
 | Soft reset                | —             | `1111 1110` | `0xFE`     |
 
-> In this project, only **`0xE3` (Trigger T measurement, hold master)** is used.
+In this project, only **`0xE3` (Trigger T measurement, hold master)** is used.
 
 ---
 
@@ -73,29 +84,12 @@ The key part of the code in the `while(1)` loop:
 ```c
 while (1)
 {
-    cmd = 0xE3;   // Temperature measurement command
-    HAL_I2C_Master_Transmit(&hi2c1, 0x40<<1, &cmd, 1, 100); // Send command
-    HAL_I2C_Master_Receive(&hi2c1, 0x40<<1, receive_array, 3, 100); // Receive data
+    cmd = 0xE3;   
+    HAL_I2C_Master_Transmit(&hi2c1, 0x40<<1, &cmd, 1, 100); 
+    HAL_I2C_Master_Receive(&hi2c1, 0x40<<1, receive_array, 3, 100); 
     temp = -46.85 + 175.72 * ((((uint16_t)(receive_array[0])) << 8) | receive_array[1]) / 65536.0; // Convert to °C
     HAL_Delay(1000);
 
-    printf("temperature = %f\r\n", temp); // Print result via UART
+    printf("temperature = %f\r\n", temp); 
 }
 ```
-
----
-
-## Configuration
-
-* **I²C1**
-
-  * Speed: `100 kHz`
-  * Mode: `7-bit addressing`
-  * Sensor address: `0x40`
-
-* **UART2**
-
-  * Baudrate: `115200`
-  * Mode: `TX/RX`
-
----
